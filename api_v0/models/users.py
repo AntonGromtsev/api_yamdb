@@ -13,7 +13,7 @@ class MyUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email):
+    def create_superuser(self, email, **kwargs):
         user = self.create_user(email, )
         user.is_admin = True
         user.save(using=self._db)
@@ -32,7 +32,7 @@ class MyUser(AbstractBaseUser):
     ]
     role = CharField(max_length=50, choices=ROLE_CHOISES, default='user')
 
-    object = MyUserManager()
+    objects = MyUserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
