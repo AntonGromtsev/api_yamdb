@@ -1,7 +1,7 @@
 from django.db import models
 
 from .review import Review
-from .users import User
+from .users import MyUser
 
 
 class Comments(models.Model):
@@ -13,7 +13,7 @@ class Comments(models.Model):
     )
     text = models.CharField(max_length=255, verbose_name='Текст')
     author = models.ForeignKey(
-        User,
+        MyUser,
         on_delete=models.CASCADE,
         related_name='comments',
         verbose_name='Автор',

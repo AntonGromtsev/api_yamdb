@@ -1,25 +1,41 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+from django.db.models.fields import CharField
+
 
 class MyUserManager(BaseUserManager):
 
-    def _create_user(self, email, **kwargs):
+    def create_user(self, email):
         if not email:
-            raise ValueError(_('The Email must be set')))
+            raise ValueError('The Email must be set')
         email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
+        user = self.model(email=email,)
         user.save(using=self._db)
         return user
 
-    def create_user(self, email, **kwargs):
-        return self._create_user(self, email, is_superuser=False)
-
-    def create_superuser(self, email, **kwargs):
-        return self._create_user(self, email, ,is_staff=True, is_superuser=True)
-
-
+    def create_superuser(self, email):
+        user = self.create_user(email, )
+        user.is_admin = True
+        user.save(using=self._db)
+        return user
 
 
+class MyUser(AbstractBaseUser):
+    first_name = models.CharField(max_length=50, blank=True)
+    last_name = models.CharField(max_length=50, blank=True)
+    username = models.CharField(max_length=50, blank=True)
+    email = models.EmailField(max_length=254, unique=True)
+    ROLE_CHOISES = [
+        ('user', 'user'),
+        ('moderator', 'moderator'),
+        ('admin', 'admin'),
+    ]
+    role = CharField(max_length=50, choices=ROLE_CHOISES, default='user')
 
-class User(models.Model):
-    pass
+    object = MyUserManager()
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    def __str__(self):
+        return self.email
