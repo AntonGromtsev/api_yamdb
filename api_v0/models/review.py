@@ -2,7 +2,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 from .titles import Titles
-from .users import User
+from .users import MyUser
 
 
 class Review(models.Model):
@@ -14,7 +14,7 @@ class Review(models.Model):
     )
     text = models.CharField(max_length=1023, verbose_name='Текст')
     author = models.ForeignKey(
-        User,
+        MyUser,
         on_delete=models.CASCADE,
         related_name='reviews',
         verbose_name='Автор',
