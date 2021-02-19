@@ -14,10 +14,7 @@ router.register(
     r'titles/(?P<title_id>[^/.]+)/reviews/(?P<review_id>[^/.]+)/comments',
     CommentsViewSet, basename='CommentsView')
 router.register(
-    'users', MyUserViewSet, basename='MyUserViewSet'
-)
-router.register(
-    r'users/(?P<username>[^/.]+', 
+    r'users/(?P<username>[^/.]+)|$', MyUserViewSet, basename='username'
 )
 
 urlpatterns = [
