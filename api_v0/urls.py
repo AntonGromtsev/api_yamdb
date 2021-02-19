@@ -2,7 +2,11 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from .views import ReviewsViewSet, CommentsViewSet, GenreViewSet, CategoryViewSet, TitleViewSet #написала так же, как и было, но почему не views.genres?
+from .views.reviews import ReviewsViewSet
+from .views.comments import CommentsViewSet
+from .views.genres import GenreViewSet
+from .views.categories import CategoryViewSet
+from .views.titles import TitleViewSet
 
 router = DefaultRouter()
 # эндпоинты для работы с отзывами и комментариями
