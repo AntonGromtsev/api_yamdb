@@ -4,10 +4,13 @@ from ..models.categories import Category
 from ..models.genres import Genre
 from ..models.titles import Title
 
+from .genres import GenreSerializer
+from .categories import CategorySerializer
+
 
 class TitleSerializer(serializers.ModelSerializer):
-    category = CategoryField(slug_field='slug', queryset=Category.objects.all(), required=False)
-    genre = GenreField(slug_field='slug', queryset=Genre.objects.all(), many=True)
+    category = CategorySerializer()
+    genre = GenreSerializer()
 
     class Meta:
         fields = ('id', 'name', 'year', 'rating', 'description', 'genre', 'category',)

@@ -10,11 +10,12 @@ from ..models.categories import Category
 from ..serializers.categories import CategorySerializer
 from ..permissions import IsAuthorOrReadOnly
 
+
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     pagination_class = PageNumberPagination
-    permission_classes = [IsAuthorOrReadOnly]
+    # permission_classes = [IsAuthorOrReadOnly]
     filter_backends = [filters.SearchFilter]
     search_fields = ['name', ]
     lookup_field = 'slug'

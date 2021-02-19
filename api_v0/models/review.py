@@ -1,13 +1,13 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
-from .titles import Titles
+from .titles import Title
 from .users import MyUser
 
 
 class Review(models.Model):
     title = models.ForeignKey(
-        Titles,
+        Title,
         verbose_name='Произведение',
         related_name='reviews',
         on_delete=models.CASCADE,
