@@ -29,7 +29,7 @@ class MyUser(AbstractUser):
     last_name = models.CharField(max_length=50, blank=True)
     bio = models.TextField(blank=True)
     email = models.EmailField(max_length=254, unique=True)
-    username = models.CharField(max_length=50, blank=True)
+    username = models.CharField(max_length=50, unique=True, blank=True)
     ROLE_CHOISES = [
         ('user', 'user'),
         ('moderator', 'moderator'),

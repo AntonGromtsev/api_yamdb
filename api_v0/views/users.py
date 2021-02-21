@@ -1,13 +1,12 @@
 from rest_framework import serializers
-from rest_framework.viewsets import ModelViewSet, GenericViewSet
+from rest_framework.viewsets import ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth.hashers import make_password
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import AccessToken
 from django.shortcuts import get_object_or_404
-from ..permissions import IsAdminOrReadOnly
-# from rest_framework import serializers
+from ..permissions import IsAdmin
 
 from ..models.users import MyUser, UserRegistration
 from ..serializers.users import (
@@ -59,13 +58,9 @@ def get_token(request):
 
 
 class MyUserViewSet (ModelViewSet):
-    permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [IsAdmin]
     queryset = MyUser.objects.all()
     serializer_class = MyUserSerializer
     lookup_field = 'username'
     filter_backends = [DjangoFilterBackend]
     search_fields = ['user__username', ]
-    # def get_queryset(self):
-    #     if (self.kwargs.get('username')):
-    #         return MyUser.objects.filter(username=self.kwargs.get('username'))
-    #     return MyUser.objects.all()
