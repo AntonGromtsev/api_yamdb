@@ -13,9 +13,7 @@ router.register(r'titles/(?P<title_id>[^/.]+)/reviews', ReviewsViewSet,
 router.register(
     r'titles/(?P<title_id>[^/.]+)/reviews/(?P<review_id>[^/.]+)/comments',
     CommentsViewSet, basename='CommentsView')
-router.register(
-    r'users/(?P<username>[^/.]+)|$', MyUserViewSet, basename='username'
-)
+router.register(r'users', MyUserViewSet, basename='MyUserViewSet')
 
 urlpatterns = [
     path('', include(router.urls)),
