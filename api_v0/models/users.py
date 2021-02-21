@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+from django.contrib.auth.models import BaseUserManager, AbstractUser
 from django.db.models.fields import CharField
 
 
@@ -13,13 +13,18 @@ class MyUserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, **kwargs):
+        list = {
+            'is_staff': True,
+            'is_superuser': True,
+        }
+        kwargs.update(list)
         user = self.create_user(email, **kwargs)
         user.is_admin = True
         user.save(using=self._db)
         return user
 
 
-class MyUser(AbstractBaseUser):
+class MyUser(AbstractUser):
     first_name = models.CharField(max_length=50, blank=True)
     last_name = models.CharField(max_length=50, blank=True)
     bio = models.TextField(blank=True)
@@ -39,3 +44,8 @@ class MyUser(AbstractBaseUser):
 
     def __str__(self):
         return self.email
+
+
+class UserRegistration (models.Model):
+    email = models.EmailField(max_length=254)
+    confirmation_code = models.CharField(max_length=254)
