@@ -1,10 +1,15 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView
+)
 from .views.reviews import ReviewsViewSet
 from .views.comments import CommentsViewSet
 from .views.users import MyUserViewSet
+from .views.genres import GenreViewSet
+from .views.categories import CategoryViewSet
+from .views.titles import TitleViewSet
 
 router = DefaultRouter()
 # эндпоинты для работы с отзывами и комментариями
@@ -16,6 +21,9 @@ router.register(
 router.register(
     r'users', MyUserViewSet, basename='MyUserViewSet'
 )
+router.register('genres', GenreViewSet)
+router.register('categories', CategoryViewSet)
+router.register('titles', TitleViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
