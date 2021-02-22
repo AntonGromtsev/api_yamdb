@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 
 from ..models.titles import Title
 from ..serializers.titles import TitleSerializer, TitleListSerializer
-from ..permissions import IsAuthorOrReadOnly
+from ..permissions import IsAdminOrReadOnly
 #всё ещё не понимаю, почему здесь проверка на автора, а не на админа
 from ..filters.filters import TitlesFilter
 
@@ -17,7 +17,7 @@ class TitleViewSet(viewsets.ModelViewSet):
     queryset = Title.objects.all()
     # serializer_class = TitleSerializer
     pagination_class = PageNumberPagination
-    # permission_classes = [IsAuthorOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly]
     filter_backends = [DjangoFilterBackend]
     filterset_class = TitlesFilter
 
