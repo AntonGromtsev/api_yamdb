@@ -12,6 +12,7 @@ class Review(models.Model):
         verbose_name='Произведение',
         related_name='reviews',
         on_delete=models.CASCADE,
+        blank=True,
     )
     text = models.CharField(max_length=1023,
                             verbose_name='Текст',
@@ -36,12 +37,12 @@ class Review(models.Model):
 
     class Meta:
         ordering = ('-pub_date',)
-        constraints = [
-            models.UniqueConstraint(
-                fields=['author', 'title'],
-                name='unique_review'
-            ),
-        ]
+        # constraints = [
+        #     models.UniqueConstraint(
+        #         fields=['author', 'title'],
+        #         name='unique_review'
+        #     ),
+        # ]
 
     def __str__(self):
         return ': '.join(

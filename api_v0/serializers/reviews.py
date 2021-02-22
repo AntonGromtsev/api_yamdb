@@ -12,21 +12,29 @@ from ..models.users import MyUser
 
 class ReviewSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
-        queryset=MyUser.objects.all(),
+        read_only=True,
         slug_field='username',
         default=serializers.CurrentUserDefault()
     )
-    title = serializers.SlugRelatedField(
-        queryset=Title.objects.all(),
-        slug_field='id'
-    )
+    # title = serializers.SlugRelatedField(
+    #     queryset=Title.objects.all(),
+    #     slug_field='pk'
+    # )
+
+    # def validate_title(self, value):
+    #     user = self.context['request'].user
+    #     if user == value:
+    #         raise serializers.ValidationError(
+    #             'You can\'tsubscribe to yourself.'
+    #         )
+    #     return value['pk']
 
     class Meta:
         fields = ('id', 'text', 'author', 'score', 'pub_date', 'title')
         model = Review
-        validators = [
-            UniqueTogetherValidator(
-                queryset=Review.objects.all(),
-                fields=['title', 'author'],
-            )
-        ]
+        # # validators = [
+        # #     UniqueTogetherValidator(
+        # #         queryset=Review.objects.all(),
+        # #         fields=['title', 'author'],
+        # #     )
+        # ]
