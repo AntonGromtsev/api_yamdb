@@ -43,6 +43,6 @@ class Review(models.Model):
         #     ),
         # ]
 
-    def __str__(self):
-        return ': '.join(
-            [str(self.pub_date), self.author, self.text[:15] + '...'])
+    # def __str__(self):
+    #     return ': '.join(
+    #         [str(self.pub_date), self.author, self.text[:15] + '...'])

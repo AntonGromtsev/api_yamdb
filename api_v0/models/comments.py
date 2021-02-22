@@ -28,6 +28,6 @@ class Comments(models.Model):
     class Meta:
         ordering = ('-pub_date',)
 
-    def __str__(self):
-        return ': '.join([str(self.pub_date), self.review,
-                          self.author, self.text[:15] + '...'])
+    # def __str__(self):
+    #     return ': '.join([str(self.pub_date), self.review,
+    #                       self.author, self.text[:15] + '...'])

@@ -22,7 +22,7 @@ router.register(
     r'users', MyUserViewSet, basename='MyUserViewSet'
 )
 router.register('genres', GenreViewSet)
-router.register('categories', CategoryViewSet)
+router.register('categories', CategoryViewSet, basename='CategoryViewSet')
 router.register('titles', TitleViewSet)
 
 urlpatterns = [

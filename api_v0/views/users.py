@@ -6,9 +6,10 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import AccessToken
 from django.shortcuts import get_object_or_404
-from ..permissions import IsAdmin
+
 
 from ..models.users import MyUser, UserRegistration
+from ..permissions import IsAdmin
 from ..serializers.users import (
     MyUserSerializer,
     UserRegistrationSerializer,
@@ -16,7 +17,7 @@ from ..serializers.users import (
 )
 
 
-@api_view(['POST'])
+@api_view(['POST']) #аноним
 def registrations_request(request):
     serializer = EmailSerializer(data=request.data)
     if not serializer.is_valid():
@@ -31,7 +32,7 @@ def registrations_request(request):
     return Response(serializer.data, )
 
 
-@api_view(['POST'])
+@api_view(['POST']) #аноним
 def get_token(request):
     serializer = UserRegistrationSerializer(data=request.data)
     if not serializer.is_valid(raise_exception=True):
