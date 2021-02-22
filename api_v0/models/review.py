@@ -22,7 +22,6 @@ class Review(models.Model):
         on_delete=models.CASCADE,
         related_name='reviews',
         verbose_name='Автор',
-        # unique=True  # автор может оставить только один отзыв
     )
     score = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(0),

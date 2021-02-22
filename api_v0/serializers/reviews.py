@@ -1,13 +1,7 @@
-import datetime
-
-from django.shortcuts import get_object_or_404
 from rest_framework import serializers
-from rest_framework.exceptions import ValidationError
 from rest_framework.validators import UniqueTogetherValidator
 
 from ..models.review import Review
-from ..models.titles import Title
-from ..models.users import MyUser
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -16,25 +10,20 @@ class ReviewSerializer(serializers.ModelSerializer):
         slug_field='username',
         default=serializers.CurrentUserDefault()
     )
-    # title = serializers.SlugRelatedField(
-    #     queryset=Title.objects.all(),
-    #     slug_field='pk'
-    # )
-
-    # def validate_title(self, value):
-    #     user = self.context['request'].user
-    #     if user == value:
-    #         raise serializers.ValidationError(
-    #             'You can\'tsubscribe to yourself.'
-    #         )
-    #     return value['pk']
 
     class Meta:
         fields = ('id', 'text', 'author', 'score', 'pub_date', 'title')
         model = Review
-        # # validators = [
-        # #     UniqueTogetherValidator(
-        # #         queryset=Review.objects.all(),
-        # #         fields=['title', 'author'],
-        # #     )
-        # ]
+
+    def validate(self, attrs):
+        score = int(attrs.get('score'))
+        if score < 1 or score > 10:
+            raise serializers.ValidationError('Rating must be from 1 to 10.')
+        if Review.objects.filter(
+                title=self.context['view'].kwargs.get('title_id'),
+                author=self.context['request']._user,
+        ).exists() and self.context['request'].method == 'POST':
+            raise serializers.ValidationError(
+                'You can write only one review to this title.'
+            )
+        return super(ReviewSerializer, self).validate(attrs)
