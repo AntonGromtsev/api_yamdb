@@ -16,7 +16,7 @@ from ..serializers.users import (
     EmailSerializer,
 )
 
-from api_yamdb.settings import EMAIL_HOST_USER
+#from api_yamdb.settings import EMAIL_HOST_USER
 
 
 def send_msg(email, code):
