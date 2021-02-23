@@ -1,4 +1,3 @@
-from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
@@ -36,12 +35,6 @@ class Review(models.Model):
 
     class Meta:
         ordering = ('-pub_date',)
-        # constraints = [
-        #     models.UniqueConstraint(
-        #         fields=['author', 'title'],
-        #         name='unique_review'
-        #     ),
-        # ]
 
     def __str__(self):
         return ': '.join(
