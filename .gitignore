@@ -1,6 +1,6 @@
 .git/*
 env/
-.api_yamdb/env/
+api_yamdb/.env/
 venv/
 
 __pycache__/
