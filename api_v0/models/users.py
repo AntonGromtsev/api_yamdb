@@ -30,6 +30,7 @@ class MyUser(AbstractUser):
     bio = models.TextField(blank=True)
     email = models.EmailField(max_length=254, unique=True)
     username = models.CharField(max_length=50, unique=True, blank=True)
+    confirmation_code = models.CharField(max_length=254, blank=True)
     ROLE_CHOISES = [
         ('user', 'user'),
         ('moderator', 'moderator'),
@@ -47,5 +48,5 @@ class MyUser(AbstractUser):
 
 
 class UserRegistration (models.Model):
-    email = models.EmailField(max_length=254)
+    email = models.EmailField(max_length=254, unique=True)
     confirmation_code = models.CharField(max_length=254)
