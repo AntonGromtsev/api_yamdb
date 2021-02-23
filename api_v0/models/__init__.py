@@ -1,4 +1,3 @@
-from . import auth
 from . import categories
 from . import comments
 from . import genres
