@@ -23,6 +23,8 @@ class EmailSerializer(serializers.ModelSerializer):
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField()
+
     class Meta:
         model = UserRegistration
         fields = ['email', 'confirmation_code', ]

@@ -1,6 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractUser
+from django.contrib.auth.models import AbstractUser
 from django.db.models.fields import CharField
+from django.utils.translation import gettext_lazy as _
 
 
 # class MyUserManager(BaseUserManager):
@@ -31,12 +32,22 @@ class MyUser(AbstractUser):
     email = models.EmailField(max_length=254, unique=True)
     username = models.CharField(max_length=50, unique=True, blank=True)
     confirmation_code = models.CharField(max_length=254, blank=True)
-    ROLE_CHOISES = [
-        ('user', 'user'),
-        ('moderator', 'moderator'),
-        ('admin', 'admin'),
-    ]
-    role = CharField(max_length=50, choices=ROLE_CHOISES, default='user')
+    # ROLE_CHOISES = [
+    #     ('user', 'user'),
+    #     ('moderator', 'moderator'),
+    #     ('admin', 'admin'),
+    # ]
+
+    class RoleChoises(models.TextChoices):
+        ADMIN = '1', _('Admin')
+        MODERATOR = '2', _('Moderator')
+        USER = '3', _('User')
+
+    role = CharField(
+        max_length=50,
+        choices=RoleChoises.choices,
+        default=RoleChoises.USER.value,
+    )
 
     # objects = MyUserManager()
 

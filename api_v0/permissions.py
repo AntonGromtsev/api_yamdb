@@ -1,3 +1,4 @@
+from api_v0.models.users import MyUser
 from rest_framework import permissions
 from rest_framework.permissions import IsAuthenticated
 
@@ -7,8 +8,11 @@ class IsAuthorOrReadOnly(permissions.IsAuthenticatedOrReadOnly):
         if request.method in permissions.SAFE_METHODS:
             return True
         if request.method == 'DELETE':
-            return request.user.role in ['admin', 'moderator']
-
+            return (
+                request.user.role
+                in [request.user.RoleChoises.ADMIN.value,
+                    request.user.RoleChoises.MODERATOR.value]
+            )
         return obj.author == request.user
 
 
@@ -16,7 +20,9 @@ class IsAdmin(permissions.BasePermission):
     def has_permission(self, request, view):
         if not request.user.is_authenticated:
             return False
-        return request.user.is_staff or request.user.role in ('admin')
+        return (request.user.is_staff
+                or request.user.role
+                in request.user.RoleChoises.ADMIN.value)
 
 
 class IsAuthenticatedOrAdmin(permissions.IsAuthenticated):
@@ -31,4 +37,7 @@ class IsAdminOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
         if request.user.is_authenticated:
-            return request.user.is_staff or request.user.role == 'admin'
+            x = request.user.RoleChoises.ADMIN.value
+            return (
+                request.user.is_staff
+                or request.user.role == request.user.RoleChoises.ADMIN.value)
