@@ -3,25 +3,25 @@ from django.contrib.auth.models import BaseUserManager, AbstractUser
 from django.db.models.fields import CharField
 
 
-class MyUserManager(BaseUserManager):
-    def create_user(self, email, **kwargs):
-        if not email:
-            raise ValueError('The Email must be set')
-        email = self.normalize_email(email)
-        user = self.model(email=email, **kwargs)
-        user.save(using=self._db)
-        return user
+# class MyUserManager(BaseUserManager):
+#     def create_user(self, email, **kwargs):
+#         if not email:
+#             raise ValueError('The Email must be set')
+#         email = self.normalize_email(email)
+#         user = self.model(email=email, **kwargs)
+#         user.save(using=self._db)
+#         return user
 
-    def create_superuser(self, email, **kwargs):
-        list = {
-            'is_staff': True,
-            'is_superuser': True,
-        }
-        kwargs.update(list)
-        user = self.create_user(email, **kwargs)
-        user.is_admin = True
-        user.save(using=self._db)
-        return user
+#     def create_superuser(self, email, **kwargs):
+#         list = {
+#             'is_staff': True,
+#             'is_superuser': True,
+#         }
+#         kwargs.update(list)
+#         user = self.create_user(email, **kwargs)
+#         user.is_admin = True
+#         user.save(using=self._db)
+#         return user
 
 
 class MyUser(AbstractUser):
@@ -38,7 +38,7 @@ class MyUser(AbstractUser):
     ]
     role = CharField(max_length=50, choices=ROLE_CHOISES, default='user')
 
-    objects = MyUserManager()
+    # objects = MyUserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', ]
