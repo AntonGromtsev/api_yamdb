@@ -2,5 +2,15 @@ from django.db import models
 
 
 class Genre(models.Model):
-    name = models.CharField(max_length=300, blank=True, null=True)
-    slug = models.SlugField(unique=True, blank=True, null=True)
+    name = models.CharField(
+        verbose_name='Жанр',
+        max_length=300,
+        blank=True,
+        null=True
+    )
+    slug = models.SlugField(
+        verbose_name='Адрес',
+        unique=True,
+        blank=True,
+        null=True
+    )
