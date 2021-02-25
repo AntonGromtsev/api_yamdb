@@ -74,8 +74,8 @@ class Migration(migrations.Migration):
                 ('year', models.IntegerField(blank=True, null=True)),
                 ('description', models.CharField(blank=True, max_length=1000)),
                 ('rating', models.IntegerField(null=True)),
-                ('category', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='api_v0.Category', verbose_name='Категория')),
-                ('genre', models.ManyToManyField(blank=True, null=True, to='api_v0.Genre', verbose_name='Жанр')),
+                ('category', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='api.Category', verbose_name='Категория')),
+                ('genre', models.ManyToManyField(blank=True, null=True, to='api.Genre', verbose_name='Жанр')),
             ],
         ),
         migrations.CreateModel(
@@ -86,7 +86,7 @@ class Migration(migrations.Migration):
                 ('score', models.PositiveSmallIntegerField(validators=[django.core.validators.MinValueValidator(0), django.core.validators.MaxValueValidator(10)], verbose_name='Рейтинг')),
                 ('pub_date', models.DateTimeField(auto_now_add=True, db_index=True, verbose_name='Дата создания')),
                 ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to=settings.AUTH_USER_MODEL, verbose_name='Автор')),
-                ('title', models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to='api_v0.Title', verbose_name='Произведение')),
+                ('title', models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to='api.Title', verbose_name='Произведение')),
             ],
             options={
                 'ordering': ('-pub_date',),
@@ -99,7 +99,7 @@ class Migration(migrations.Migration):
                 ('text', models.CharField(max_length=255, verbose_name='Текст')),
                 ('pub_date', models.DateTimeField(auto_now_add=True, db_index=True, verbose_name='Дата создания')),
                 ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to=settings.AUTH_USER_MODEL, verbose_name='Автор')),
-                ('review', models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='api_v0.Review', verbose_name='Комментарии')),
+                ('review', models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='api.Review', verbose_name='Комментарии')),
             ],
             options={
                 'ordering': ('-pub_date',),

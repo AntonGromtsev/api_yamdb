@@ -1,9 +1,5 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView
-)
 from .views.reviews import ReviewsViewSet
 from .views.comments import CommentsViewSet
 from .views.users import MyUserViewSet, registrations_request, get_token
@@ -12,7 +8,6 @@ from .views.categories import CategoryViewSet
 from .views.titles import TitleViewSet
 
 router = DefaultRouter()
-# эндпоинты для работы с отзывами и комментариями
 router.register(r'titles/(?P<title_id>[^/.]+)/reviews', ReviewsViewSet,
                 basename='ReviewsView')
 router.register(
@@ -26,9 +21,7 @@ router.register('categories', CategoryViewSet)
 router.register('titles', TitleViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
-    path('auth/email/', registrations_request),
-    path('auth/token/', get_token),
-    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('v1/', include(router.urls)),
+    path('v1/auth/', include([path('email/', registrations_request),
+                              path('token', get_token)]))
 ]

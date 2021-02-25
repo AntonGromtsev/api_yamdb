@@ -7,7 +7,6 @@ class Title(models.Model):
     name = models.CharField(max_length=300, blank=False)
     year = models.IntegerField(null=True, blank=True)
     description = models.CharField(max_length=1000, blank=True)
-    rating = models.IntegerField(null=True)
     genre = models.ManyToManyField(
         Genre,
         verbose_name='Жанр',

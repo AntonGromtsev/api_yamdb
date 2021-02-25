@@ -1,4 +1,5 @@
 from rest_framework import serializers, status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth.hashers import make_password
@@ -8,7 +9,7 @@ from rest_framework_simplejwt.tokens import AccessToken
 from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail, BadHeaderError
 
-from ..permissions import IsAdmin, IsAuthenticatedOrAdmin
+from ..permissions import IsAdmin
 from ..models.users import MyUser, UserRegistration
 from ..serializers.users import (
     MyUserSerializer,
@@ -102,7 +103,7 @@ class MyUserViewSet (ModelViewSet):
 
     def get_permissions(self):
         if self.action == 'me':
-            permission_classes = [IsAuthenticatedOrAdmin]
+            permission_classes = [IsAuthenticated]
         else:
             permission_classes = [IsAdmin]
         return [permission() for permission in permission_classes]
