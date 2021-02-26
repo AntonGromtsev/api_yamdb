@@ -1,4 +1,3 @@
-from django.db.models import Avg
 from rest_framework import serializers
 
 from ..models.categories import Category
@@ -18,8 +17,15 @@ class TitleSerializer(serializers.ModelSerializer):
                                          many=True)
 
     class Meta:
-        fields = ('id', 'name', 'year', 'description', 'genre', 'category',)
         model = Title
+        fields = (
+            'id',
+            'name',
+            'year',
+            'description',
+            'genre',
+            'category',
+        )
 
 
 class TitleListSerializer(serializers.ModelSerializer):
