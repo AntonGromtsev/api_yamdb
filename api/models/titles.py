@@ -18,12 +18,12 @@ class Title(models.Model):
         Genre,
         verbose_name='Жанр',
         blank=True,
-        null=True
+        null=True,
     )
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
         blank=True,
         null=True,
-        verbose_name='Категория'
+        verbose_name='Категория',
     )

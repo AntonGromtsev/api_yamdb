@@ -32,11 +32,6 @@ class MyUser(AbstractUser):
     email = models.EmailField(max_length=254, unique=True)
     username = models.CharField(max_length=50, unique=True, blank=True)
     confirmation_code = models.CharField(max_length=254, blank=True)
-    # ROLE_CHOISES = [
-    #     ('user', 'user'),
-    #     ('moderator', 'moderator'),
-    #     ('admin', 'admin'),
-    # ]
 
     class RoleChoises(models.TextChoices):
         ADMIN = 'admin', _('Admin')
@@ -49,16 +44,16 @@ class MyUser(AbstractUser):
         default=RoleChoises.USER.value,
     )
 
-    # objects = MyUserManager()
-
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', ]
 
-    def is_moderator (self):
-        return user.role == RoleChoises.MODERATOR
+    @property
+    def is_moderator(self):
+        return self.role == self.RoleChoises.MODERATOR
 
-    def is_admin (self):
-        return user.role == RoleChoises.ADMIN 
+    @property
+    def is_admin(self):
+        return self.role == self.RoleChoises.ADMIN
   
     def __str__(self):
         return self.email

@@ -12,7 +12,7 @@ class MyUserSerializer(serializers.ModelSerializer):
             'username',
             'bio',
             'email',
-            'role'
+            'role',
         )
 
 
@@ -24,7 +24,7 @@ class EmailSerializer(serializers.ModelSerializer):
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     email = serializers.EmailField()
-    
+
     class Meta:
         model = UserRegistration
-        fields = ['email', 'confirmation_code', ]
+        fields = ['email', 'confirmation_code']
