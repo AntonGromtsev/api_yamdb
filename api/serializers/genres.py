@@ -1,13 +1,13 @@
 from rest_framework import serializers
 
-from ..models.categories import Category
+from ..models.genres import Genre
 
 
-class CategorySerializer(serializers.ModelSerializer):
+class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         fields = ('name', 'slug',)
-        lookup_field = 'slug'
         extra_kwargs = {
             'url': {'lookup_field': 'slug'}
         }
-        model = Category
+        model = Genre
+
