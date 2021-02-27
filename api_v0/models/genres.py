@@ -5,8 +5,6 @@ class Genre(models.Model):
     name = models.CharField(
         verbose_name='Жанр',
         max_length=300,
-        blank=True,
-        null=True
     )
     slug = models.SlugField(
         verbose_name='Адрес',
