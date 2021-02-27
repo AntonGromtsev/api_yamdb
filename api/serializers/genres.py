@@ -10,3 +10,4 @@ class GenreSerializer(serializers.ModelSerializer):
             'url': {'lookup_field': 'slug'}
         }
         model = Genre
+
