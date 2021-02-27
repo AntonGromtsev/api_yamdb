@@ -1,21 +1,16 @@
-from re import S
-from django.db.models import query
 from rest_framework import serializers, status
-from rest_framework import permissions
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
-from django.contrib.auth.hashers import make_password
-from rest_framework.decorators import api_view, action, permission_classes
+from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import AccessToken
 from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
 from django.contrib.auth.tokens import default_token_generator
-from rest_framework.views import APIView
 
-from ..permissions import IsAdmin, IsAuthorOrReadOnly
-from ..models.users import MyUser#, UserRegistration
+from ..permissions import IsAdmin
+from ..models.users import MyUser
 from ..serializers.users import (
     MyUserSerializer,
     UserRegistrationSerializer,
@@ -57,7 +52,6 @@ def registrations_request(request):
 def get_token(request):
     serializer = UserRegistrationSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
-    #serializer = EmailSerializer(data=request.data)
     email = serializer.validated_data.get('email')
     code = serializer.validated_data.get('confirmation_code')
     user = get_object_or_404(MyUser, email=email)
@@ -75,20 +69,26 @@ class MyUserViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     search_fields = ['user__username', ]
 
-
-class MyUserMeView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        serializer = MyUserSerializer(request.user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def patch(self, request):
-        serializer = MyUserSerializer(
+    @action(
+        detail=False,
+        methods=['GET', 'PATCH'],
+        permission_classes=[IsAuthenticated],
+    )
+    def me(self, request):
+        if request.method == 'GET':
+            return Response(
+                self.serializer_class(request.user).data,
+                status=status.HTTP_200_OK,
+            )
+        serializer = self.serializer_class(
             request.user,
             data=request.data,
-            partial=True,
+            partial=True
         )
         serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        if not serializer.validated_data.get('role') or request.user.is_admin:
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        raise serializers.ValidationError(
+            'You don\'t have enough rights to change the user role.'
+        )
