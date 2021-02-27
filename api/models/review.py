@@ -8,10 +8,10 @@ from .users import MyUser
 class Review(models.Model):
     title = models.ForeignKey(
         Title,
-        verbose_name='Произведение',
         related_name='reviews',
         on_delete=models.CASCADE,
         blank=True,
+        verbose_name='Произведение',
     )
     text = models.CharField(max_length=1023,
                             verbose_name='Текст',
@@ -25,7 +25,7 @@ class Review(models.Model):
     score = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1),
                     MaxValueValidator(10)],
-        verbose_name='Рейтинг'
+        verbose_name='Рейтинг',
     )
     pub_date = models.DateTimeField(
         auto_now_add=True,

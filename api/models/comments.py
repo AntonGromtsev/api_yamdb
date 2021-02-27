@@ -9,8 +9,8 @@ class Comments(models.Model):
         Review,
         on_delete=models.CASCADE,
         related_name='comments',
+        blank=True,
         verbose_name='Комментарии',
-        blank=True
     )
     text = models.CharField(max_length=255, verbose_name='Текст')
     author = models.ForeignKey(

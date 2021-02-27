@@ -7,18 +7,27 @@ from .utils import current_year, max_value_current_year
 
 
 class Title(models.Model):
-    name = models.CharField(max_length=300, blank=False)
-    year = models.PositiveIntegerField(default=current_year(),
-                                       verbose_name='Год',
-                                       validators=[MinValueValidator(1700),
-                                                   max_value_current_year],
-                                       db_index=True)
-    description = models.CharField(max_length=1000, blank=True)
+    name = models.CharField(
+        max_length=300,
+        blank=False,
+        verbose_name='Название',
+    )
+    year = models.PositiveIntegerField(
+        default=current_year(),
+        validators=[MinValueValidator(1700), max_value_current_year],
+        db_index=True,
+        verbose_name='Год',
+    )
+    description = models.CharField(
+        max_length=1000,
+        blank=True,
+        verbose_name='Описание',
+    )
     genre = models.ManyToManyField(
         Genre,
-        verbose_name='Жанр',
         blank=True,
         null=True,
+        verbose_name='Жанр',
     )
     category = models.ForeignKey(
         Category,

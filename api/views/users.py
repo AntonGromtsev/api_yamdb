@@ -57,8 +57,14 @@ def get_token(request):
     user = get_object_or_404(MyUser, email=email)
     if default_token_generator.check_token(user, code):
         access_token = AccessToken.for_user(user)
-        return Response({'token': f'{access_token}'})
-    return Response({'token': 'Invalid authorization token'})
+        return Response(
+            {'token': f'{access_token}'},
+            status=status.HTTP_200_OK,
+        )
+    return Response(
+        {'token': 'Invalid authorization token'},
+        status=status.HTTP_400_BAD_REQUEST,
+    )
 
 
 class MyUserViewSet(ModelViewSet):
@@ -67,7 +73,7 @@ class MyUserViewSet(ModelViewSet):
     permission_classes = [IsAdmin]
     lookup_field = 'username'
     filter_backends = [DjangoFilterBackend]
-    search_fields = ['user__username', ]
+    search_fields = ['user__username']
 
     @action(
         detail=False,
