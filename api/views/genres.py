@@ -16,10 +16,10 @@ class GenreViewSet(viewsets.ModelViewSet):
     search_fields = ['name', ]
     lookup_field = 'slug'
 
-    def create(self, request, *args, **kwargs):
-        if not request.data.get('name'):
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-        return super(GenreViewSet, self).create(request, *args, **kwargs)
+    # def create(self, request, *args, **kwargs):
+    #     if not request.data.get('name'):
+    #         return Response(status=status.HTTP_400_BAD_REQUEST)
+    #     return super(GenreViewSet, self).create(request, *args, **kwargs)
 
     def retrieve(self, request, *args, **kwargs):
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
