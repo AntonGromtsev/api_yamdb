@@ -30,8 +30,8 @@ class MyUser(AbstractUser):
     last_name = models.CharField(max_length=50, blank=True)
     bio = models.TextField(blank=True)
     email = models.EmailField(max_length=254, unique=True)
-    username = models.CharField(max_length=50, unique=True, blank=True)
-    confirmation_code = models.CharField(max_length=254, blank=True)
+    username = models.CharField(max_length=50, unique=True)
+    #confirmation_code = models.CharField(max_length=254, blank=True)
 
     class RoleChoises(models.TextChoices):
         ADMIN = 'admin', _('Admin')
@@ -54,11 +54,11 @@ class MyUser(AbstractUser):
     @property
     def is_admin(self):
         return self.role == self.RoleChoises.ADMIN
-  
+
     def __str__(self):
         return self.email
 
 
-class UserRegistration (models.Model):
-    email = models.EmailField(max_length=254, unique=True)
-    confirmation_code = models.CharField(max_length=254)
+# class UserRegistration (models.Model):
+#     email = models.EmailField(max_length=254, unique=True)
+#     confirmation_code = models.CharField(max_length=254)
