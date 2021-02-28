@@ -10,7 +10,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.tokens import default_token_generator
 
 from ..permissions import IsAdmin
-from ..models.users import MyUser
+from ..models.users import User
 from ..serializers.users import (
     MyUserSerializer,
     UserRegistrationSerializer,
@@ -37,9 +37,9 @@ def send_msg(email, code):
 def registrations_request(request):
     serializer = EmailSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
-    email = serializer.validated_data.get('email')
-    username = serializer.validated_data.get('username')
-    user = MyUser.objects.create(
+    email = serializer.data.get('email')
+    username = serializer.data.get('username')
+    user = User.objects.create(
         email=email,
         username=username,
     )
@@ -52,9 +52,9 @@ def registrations_request(request):
 def get_token(request):
     serializer = UserRegistrationSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
-    email = serializer.validated_data.get('email')
-    code = serializer.validated_data.get('confirmation_code')
-    user = get_object_or_404(MyUser, email=email)
+    email = serializer.data.get('email')
+    code = serializer.data.get('confirmation_code')
+    user = get_object_or_404(User, email=email)
     if default_token_generator.check_token(user, code):
         access_token = AccessToken.for_user(user)
         return Response(
@@ -68,7 +68,7 @@ def get_token(request):
 
 
 class MyUserViewSet(ModelViewSet):
-    queryset = MyUser.objects.all()
+    queryset = User.objects.all()
     serializer_class = MyUserSerializer
     permission_classes = [IsAdmin]
     lookup_field = 'username'
@@ -83,18 +83,14 @@ class MyUserViewSet(ModelViewSet):
     def me(self, request):
         if request.method == 'GET':
             return Response(
-                self.serializer_class(request.user).data,
+                self.get_serializer(request.user).data,
                 status=status.HTTP_200_OK,
             )
-        serializer = self.serializer_class(
+        serializer = self.get_serializer(
             request.user,
             data=request.data,
             partial=True
         )
         serializer.is_valid(raise_exception=True)
-        if not serializer.validated_data.get('role') or request.user.is_admin:
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        raise serializers.ValidationError(
-            'You don\'t have enough rights to change the user role.'
-        )
+        serializer.save(role=request.user.role)
+        return Response(serializer.data, status=status.HTTP_200_OK)
