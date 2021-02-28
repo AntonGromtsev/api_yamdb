@@ -11,25 +11,25 @@ class Review(models.Model):
         related_name='reviews',
         on_delete=models.CASCADE,
         blank=True,
-        verbose_name='Произведение',
+        verbose_name='Title',
     )
-    text = models.TextField(verbose_name='Текст',
+    text = models.TextField(verbose_name='Text',
                             null=False)
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='reviews',
-        verbose_name='Автор',
+        verbose_name='Author',
     )
     score = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1),
                     MaxValueValidator(10)],
-        verbose_name='Рейтинг',
+        verbose_name='Score',
     )
     pub_date = models.DateTimeField(
         auto_now_add=True,
         db_index=True,
-        verbose_name='Дата создания',
+        verbose_name='Publication date',
     )
 
     class Meta:
