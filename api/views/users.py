@@ -37,8 +37,8 @@ def send_msg(email, code):
 def registrations_request(request):
     serializer = EmailSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
-    email = serializer.data.get('email')
-    username = serializer.data.get('username')
+    email = serializer.data['email']
+    username = serializer.data['username']
     user, create_flag = User.objects.get_or_create(
         email=email,
         username=username,
