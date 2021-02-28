@@ -1,7 +1,10 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
 from .review import Review
-from .users import User
+
+
+User = get_user_model()
 
 
 class Comments(models.Model):

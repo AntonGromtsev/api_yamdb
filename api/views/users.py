@@ -8,9 +8,9 @@ from rest_framework_simplejwt.tokens import AccessToken
 from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
 from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth import get_user_model
 
 from ..permissions import IsAdmin
-from ..models.users import User
 from ..serializers.users import (
     MyUserSerializer,
     UserRegistrationSerializer,
@@ -18,6 +18,9 @@ from ..serializers.users import (
 )
 
 from api_yamdb.settings import EMAIL_HOST_USER
+
+
+User = get_user_model()
 
 
 def send_msg(email, code):

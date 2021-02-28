@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
 from django.db.models.fields import CharField
 
@@ -59,4 +58,4 @@ class MyUser(AbstractUser):
         return '\n'.join([self.username, self.email, self.role])
 
 
-User = get_user_model()
+# User = get_user_model()
