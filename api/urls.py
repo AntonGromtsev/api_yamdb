@@ -20,8 +20,9 @@ router.register('genres', GenreViewSet)
 router.register('categories', CategoryViewSet)
 router.register('titles', TitleViewSet)
 
+auth_paths = [path('email/', registrations_request), path('token/', get_token)]
+
 urlpatterns = [
     path('v1/', include(router.urls)),
-    path('v1/auth/', include([path('email/', registrations_request),
-                              path('token/', get_token)]))
+    path('v1/auth/', include(auth_paths))
 ]

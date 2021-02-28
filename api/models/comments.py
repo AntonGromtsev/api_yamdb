@@ -10,19 +10,19 @@ class Comments(models.Model):
         on_delete=models.CASCADE,
         related_name='comments',
         blank=True,
-        verbose_name='Комментарии',
+        verbose_name='Comments',
     )
-    text = models.CharField(max_length=255, verbose_name='Текст')
+    text = models.CharField(max_length=255, verbose_name='Text')
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='comments',
-        verbose_name='Автор',
+        verbose_name='Author',
     )
     pub_date = models.DateTimeField(
         auto_now_add=True,
         db_index=True,
-        verbose_name='Дата создания',
+        verbose_name='Publication date',
     )
 
     class Meta:
