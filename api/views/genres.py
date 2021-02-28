@@ -13,5 +13,5 @@ class GenreViewSet(MixinViewSet):
     pagination_class = PageNumberPagination
     permission_classes = [IsAdminOrReadOnly]
     filter_backends = [filters.SearchFilter]
-    search_fields = ['name', ]
+    search_fields = ['name']
     lookup_field = 'slug'

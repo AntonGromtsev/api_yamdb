@@ -2,22 +2,21 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 from .titles import Title
-from .users import MyUser
+from .users import User
 
 
 class Review(models.Model):
     title = models.ForeignKey(
         Title,
-        verbose_name='Произведение',
         related_name='reviews',
         on_delete=models.CASCADE,
         blank=True,
+        verbose_name='Произведение',
     )
-    text = models.CharField(max_length=1023,
-                            verbose_name='Текст',
+    text = models.TextField(verbose_name='Текст',
                             null=False)
     author = models.ForeignKey(
-        MyUser,
+        User,
         on_delete=models.CASCADE,
         related_name='reviews',
         verbose_name='Автор',
@@ -25,7 +24,7 @@ class Review(models.Model):
     score = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1),
                     MaxValueValidator(10)],
-        verbose_name='Рейтинг'
+        verbose_name='Рейтинг',
     )
     pub_date = models.DateTimeField(
         auto_now_add=True,

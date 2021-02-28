@@ -1,12 +1,12 @@
 from rest_framework import serializers
 
-from ..models.users import MyUser
+from ..models.users import User
 
 
 class MyUserSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = MyUser
+        model = User
         fields = (
             'first_name',
             'last_name',
@@ -19,7 +19,7 @@ class MyUserSerializer(serializers.ModelSerializer):
 
 class EmailSerializer(serializers.ModelSerializer):
     class Meta:
-        model = MyUser
+        model = User
         fields = ('email', 'username')
 
 
