@@ -39,7 +39,7 @@ def registrations_request(request):
     serializer.is_valid(raise_exception=True)
     email = serializer.data.get('email')
     username = serializer.data.get('username')
-    user = User.objects.create(
+    user, create_flag = User.objects.get_or_create(
         email=email,
         username=username,
     )

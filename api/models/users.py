@@ -42,7 +42,7 @@ class MyUser(AbstractUser):
     )
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', ]
+    REQUIRED_FIELDS = ['username']
 
     @property
     def is_moderator(self):
@@ -57,6 +57,7 @@ class MyUser(AbstractUser):
         )
 
     def __str__(self):
-        return self.email #!!!!
+        return '\n'.join([self.username, self.email, self.role])
+
 
 User = get_user_model()
