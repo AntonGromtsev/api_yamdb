@@ -52,8 +52,8 @@ def registrations_request(request):
 def get_token(request):
     serializer = UserRegistrationSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
-    email = serializer.data.get('email')
-    code = serializer.data.get('confirmation_code')
+    email = serializer.data['email']
+    code = serializer.data['confirmation_code']
     user = get_object_or_404(User, email=email)
     if default_token_generator.check_token(user, code):
         access_token = AccessToken.for_user(user)
