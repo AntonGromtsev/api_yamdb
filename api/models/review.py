@@ -13,8 +13,7 @@ class Review(models.Model):
         blank=True,
         verbose_name='Произведение',
     )
-    text = models.CharField(max_length=1023,
-                            verbose_name='Текст',
+    text = models.TextField(verbose_name='Текст',
                             null=False)
     author = models.ForeignKey(
         User,
